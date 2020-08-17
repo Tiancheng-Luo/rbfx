@@ -94,27 +94,22 @@ jobs:
           CMAKE_GENERATE_ARGS: -DTRACY_NO_PARALLEL_ALGORITHMS=ON
           CC: clang-8
           CXX: clang++-8
-          EXTRA_PACKAGES: clang-8
         shared-clang-opengl:
           BUILD_SHARED_LIBS: ON
           CMAKE_GENERATE_ARGS: -DTRACY_NO_PARALLEL_ALGORITHMS=ON
           CC: clang-8
           CXX: clang++-8
-          EXTRA_PACKAGES: clang-8 mono-devel msbuild-libhostfxr msbuild-sdkresolver msbuild
+          EXTRA_PACKAGES: mono-devel msbuild-libhostfxr msbuild-sdkresolver msbuild
 
     steps:
       - bash: |
           # Mono
           sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
           echo "deb http://download.mono-project.com/repo/ubuntu stable-bionic main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
-          # Clang
-          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
-          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-          sudo apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-8 main"
         displayName: 'Add Repositories'
       - template: cmake.yml
       - bash: |
-          sudo apt-get install -y --no-install-recommends libasound2-dev libxrandr-dev libgl1-mesa-dev libglu1-mesa-dev uuid-dev ninja-build $(EXTRA_PACKAGES)
+          sudo apt-get install -y --no-install-recommends libasound2-dev libxrandr-dev libgl1-mesa-dev libglu1-mesa-dev uuid-dev libtbb-dev ninja-build $(EXTRA_PACKAGES)
           sudo update-alternatives --install /usr/bin/cc cc /usr/bin/$(CC) 100
           sudo update-alternatives --set cc /usr/bin/$(CC)
           sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/$(CXX) 100

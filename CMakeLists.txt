@@ -64,7 +64,8 @@ if (WEB OR ANDROID)
     # crosscompiler works just fine.
     unset (CMAKE_CXX_STANDARD)
 endif ()
-if (APPLE)
+
+if (APPLE OR CLANG)
     ucm_add_flags(CXX -stdlib=libc++)
 endif ()
 
@@ -109,6 +110,7 @@ if (BUILD_SHARED_LIBS)
 else ()
     message(STATUS "  Library         STATIC")
 endif ()
+message(STATUS "  Graphics        ${URHO3D_GRAPHICS_API}")
 message(STATUS "  SSE             ${URHO3D_SSE}")
 message(STATUS "  2D              ${URHO3D_URHO2D}")
 message(STATUS "  Glow            ${URHO3D_GLOW}")
